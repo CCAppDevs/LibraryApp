@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryApp.Server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
