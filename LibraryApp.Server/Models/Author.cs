@@ -1,4 +1,6 @@
-﻿namespace LibraryApp.Server.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LibraryApp.Server.Models
 {
     public class Author
     {

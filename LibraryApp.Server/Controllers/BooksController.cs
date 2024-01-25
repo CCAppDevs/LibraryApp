@@ -27,7 +27,17 @@ namespace LibraryApp.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books
+                .Include(b => b.Author)
+                .Select(b => new Book {
+                    BookId = b.BookId,
+                    Author = b.Author,
+                    AuthorId = b.AuthorId,
+                    Description = b.Description,
+                    Title = b.Title,
+                    CoverType = b.CoverType,
+                    CoverUrl = b.CoverUrl
+                }).ToListAsync();
         }
 
         // GET: api/Books/5
