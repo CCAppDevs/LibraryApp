@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryApp.Server.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
@@ -29,7 +28,8 @@ namespace LibraryApp.Server.Controllers
         {
             return await _context.Books
                 .Include(b => b.Author)
-                .Select(b => new Book {
+                .Select(b => new Book
+                {
                     BookId = b.BookId,
                     Author = b.Author,
                     AuthorId = b.AuthorId,
@@ -37,14 +37,29 @@ namespace LibraryApp.Server.Controllers
                     Title = b.Title,
                     CoverType = b.CoverType,
                     CoverUrl = b.CoverUrl
-                }).ToListAsync();
+                })
+                .ToListAsync();
+                
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books
+                .Include(b => b.Author)
+                .Where(b => b.BookId == id)
+                .Select(b => new Book
+                {
+                    BookId = b.BookId,
+                    Author = b.Author,
+                    AuthorId = b.AuthorId,
+                    Description = b.Description,
+                    Title = b.Title,
+                    CoverType = b.CoverType,
+                    CoverUrl = b.CoverUrl
+                })
+                .SingleOrDefaultAsync();
 
             if (book == null)
             {

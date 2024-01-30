@@ -7,6 +7,6 @@ namespace LibraryApp.Server.Models
         public int AuthorID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public ICollection<Book> Book { get; set; }
+        public ICollection<Book> Books { get; set; }
     }
 }
